@@ -8,7 +8,7 @@ export async function rankingUrls(req, res) {
         const rankingFormat = ranking.rows
 
         rankingFormat.forEach(obj => {
-            visitCount = obj.visitCount
+            let visitCount = obj.visitCount
             if (visitCount == null) {
                 obj.visitCount = 0
             }
