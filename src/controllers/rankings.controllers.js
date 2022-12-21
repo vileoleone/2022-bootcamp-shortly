@@ -3,7 +3,7 @@ import { connectionWithDB } from "../database/db.js"
 export async function rankingUrls(req, res) {
     try {
         console.log("oi")
-        const ranking = await connectionWithDB.query(`SELECT users.id, users.name, COUNT(urls.url) AS "linksCount", SUM(urls.visits) AS "visitCount" FROM users LEFT JOIN Urls ON users.id = urls."userId" GROUP BY users.id ORDER BY "visitCount" DESC LIMIT 10;`)
+        const ranking = await connectionWithDB.query(`SELECT users.id, users.name, COUNT(urls.url) AS "linksCount",COALESCE(SUM(urls.visits),0) AS "visitCount" FROM users LEFT JOIN Urls ON users.id = urls."userId" GROUP BY users.id ORDER BY "visitCount" DESC LIMIT 10;`)
 
         const rankingFormat = ranking.rows
 
