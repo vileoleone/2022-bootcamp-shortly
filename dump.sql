@@ -61,7 +61,7 @@ CREATE TABLE public.urls (
     "userId" integer NOT NULL,
     url text NOT NULL,
     "shortUrl" text NOT NULL,
-    visits integer DEFAULT 0,
+    visits integer NOT NULL DEFAULT 0,
     "createdAt" timestamp without time zone DEFAULT now() NOT NULL
 );
 
