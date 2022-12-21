@@ -6,15 +6,20 @@ export async function signInController(req, res) {
     delete (res.locals.signInbodyValidated.password)
     let token;
 
-    const logInUserToken = await connectionWithDB.query(`SELECT * from sessions where "userId" = $1`, [id])
-    if (logInUserToken.rowCount !== 0) {
-        token = logInUserToken.rows[0].token;
-    } else {
-        token = uuid()
-        
-        await connectionWithDB.query(`INSERT INTO sessions ("userId", token) VALUES ($1, $2)`, [id, token])
+    try {
+        const logInUserToken = await connectionWithDB.query(`SELECT * from sessions where "userId" = $1`, [id])
+        if (logInUserToken.rowCount !== 0) {
+            token = logInUserToken.rows[0].token;
+        } else {
+            token = uuid()
+
+            await connectionWithDB.query(`INSERT INTO sessions ("userId", token) VALUES ($1, $2)`, [id, token])
+        }
+
+        res.status(200).send({ token })
+    } catch (err) {
+        res.status(500).send(err.message)
     }
     
-    res.status(200).send({ token })
 
 }
