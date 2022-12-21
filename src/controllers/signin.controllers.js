@@ -6,6 +6,7 @@ export async function signInController(req, res) {
     delete (res.locals.signInbodyValidated.password)
     let token;
 
+
     try {
         const logInUserToken = await connectionWithDB.query(`SELECT * from sessions where "userId" = $1`, [id])
         if (logInUserToken.rowCount !== 0) {
